@@ -18,23 +18,17 @@ class Program(object):
         image = Image.open("test.bmp")
         photo = ImageTk.PhotoImage(image)
         test_photo = Label(self.root, image=photo).place(x=20, y=50)
-        but = Button(self.root, image=photo, cursor="plus", command=sport1)
-        but.place(x=25, y=25)
+        but = Button(self.root, image=photo, cursor="plus", command=self.new).place(x=25, y=50)
+        self.root.mainloop()
+        
+    def new(self):
+        ball = Tk()
+        ball.geometry('1366x768')
+        label1 = Label(ball, text='Hello').place(x=50, y=50)
 
         self.root.mainloop()
-    def sport1(self):
-        Football()
-
-class Football(object):
-    def __init__(self):
-        self.ball = Tk()
-        self.ball.geometry('1366x768')
-        
-        self.ball.mainloop()
 
 Program()
-
-
 
 
         
