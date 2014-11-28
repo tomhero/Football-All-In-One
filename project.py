@@ -3,7 +3,7 @@
 """ ProJect """
 import time
 from Tkinter import *
-from ImageTk import PhotoImage
+#from ImageTk import PhotoImage
 from PIL import Image, ImageTk
 import tkMessageBox
 import tkFont
@@ -20,27 +20,77 @@ class Football(object):
         but1 = Button(self.ball, text="+++++1", command=self.change).place(x=50, y=500)
         but_re = Button(self.ball, text="RESET!!", command=self.reset).place(x=200, y=500)
         but2 = Button(self.ball, text="+++++2").place(x=500, y=500)
+        but_st = Button(self.ball, text="start", command=self.Start).place(x=1000, y=500)
 
-        #image
-        self.img = list()
-        self.img.append(ImageTk.PhotoImage(file="1.jpg"))
-        self.img.append(ImageTk.PhotoImage(file="2.jpg"))
-        self.img.append(ImageTk.PhotoImage(file="3.jpg"))
-        self.idx1, self.idx2 = 0, 0
+        #font
+        self.big_font = tkFont.Font(self.ball, family='TH SarabunPSK', size=280, weight="bold")
+
+        #Var for stopwacth
+        but_st = Button(self.ball, text="start", command=self.Start).place(x=1000, y=500)
+        self.minit, self.sec = 0, 0
+        self.time_font = tkFont.Font(self.ball, family='TH SarabunPSK', size=50, weight="bold")
+        self._start = 0.0        
+        self._elapsedtime = 0.0
+        self._running = 0
+        print "__init__ ->"
+        self.timestr = StringVar()               
+        self.makeWidgets()
 
         #loop
         self.ball.mainloop()
 
     def change(self):
-        if self.idx < len(self.img)-1:
-            box1 = Label(self.ball, image=self.img[self.idx]).place(x=10, y=20)
-            self.idx += 1
-        else:
-            box1 = Label(self.ball, image=self.img[self.idx]).place(x=10, y=20)
+        box1 = Label(self.ball, text="%.2d" % (self.idx1), font=self.big_font, bg="black", fg="white").place(x=50, y=100)
+        self.idx1 += 1
 
     def reset(self):
-        self.idx = 0
-        box1 = Label(self.ball, image=self.img[self.idx]).place(x=10, y=20)
+        self.idx1 = 0
+        box1 = Label(self.ball, text="%.2d" % (self.idx1), font=self.big_font, bg="black", fg="white").place(x=50, y=100)
+        self.idx1 += 1
+
+    #stopwacth
+    def makeWidgets(self):                         
+        """ Make the time label. """
+        l = Label(self.ball, textvariable=self.timestr, font=self.time_font)
+        self._setTime(self._elapsedtime)
+        print "makeWidgets ->",
+        l.place(x=1000, y=150)
+    
+    def _update(self): 
+        """ Update the label with elapsed time. """
+        self._elapsedtime = time.time() - self._start
+        self._setTime(self._elapsedtime)
+        print "_update ->",
+        self._timer = self.ball.after(50, self._update)
+    
+    def _setTime(self, elap):
+        """ Set the time string to Minutes:Seconds:Hundreths """
+        minutes = int(elap/60)
+        seconds = int(elap - minutes*60.0)
+        #hseconds = int((elap - minutes*60.0 - seconds)*100)
+        print "_setTime ->",
+        self.timestr.set('%02d:%02d' % (minutes, seconds))
+        
+    def Start(self):                                                     
+        """ Start the stopwatch, ignore if running. """
+        if not self._running:            
+            self._start = time.time() - self._elapsedtime
+            self._update()
+            self._running = 1        
+    
+    def Stop(self):                                    
+        """ Stop the stopwatch, ignore if stopped. """
+        if self._running:
+            self.after_cancel(self._timer)            
+            self._elapsedtime = time.time() - self._start    
+            self._setTime(self._elapsedtime)
+            self._running = 0
+    
+    def Reset(self):                                  
+        """ Reset the stopwatch. """
+        self._start = time.time()         
+        self._elapsedtime = 0.0    
+        self._setTime(self._elapsedtime)
 
 class Main(object):
     def __init__(self):
