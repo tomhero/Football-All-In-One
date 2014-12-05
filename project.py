@@ -14,19 +14,25 @@ class Football(object):
         self.ball = Toplevel()
         self.screen_width = self.ball.winfo_screenwidth()
         self.screen_height = self.ball.winfo_screenheight()
-        self.ball.geometry(str(self.screen_width)+'x'+str(self.screen_height))
+        self.screen_all = self.screen_width*self.screen_height
+        self.ball.overrideredirect(True)
+        self.ball.geometry("{0}x{1}+0+0".format(self.screen_width, self.screen_height))
         bg_image = Image.open("fifa_15.jpg")
         bg_image = bg_image.resize((self.screen_width, self.screen_height), Image.ANTIALIAS)
         bg_photo =  ImageTk.PhotoImage(bg_image)
         bg_pic = Label(self.ball, image=bg_photo)
         bg_pic.pack()
-        but1 = Button(self.ball, text="+++++1", command=self.change).place(x=50, y=500)
+        def quit_fx():
+            self.ball.destroy()
+        but_quit = Button(self.ball, text='CLOSE', command=quit_fx)
+        but_quit.place(x=self.screen_width*0.97, y=self.screen_height*0.01)
+        but1 = Button(self.ball, text="+++++1", command=self.change).place(x=200, y=500)
         but_re = Button(self.ball, text="RESET!!", command=self.reset).place(x=200, y=500)
         but2 = Button(self.ball, text="+++++2").place(x=500, y=500)
         but_st = Button(self.ball, text="start", command=self.Start).place(x=1000, y=500)
 
         #font
-        self.big_font = tkFont.Font(self.ball, family='TH SarabunPSK', size=280, weight="bold")
+        self.big_font = tkFont.Font(self.ball, family='TH SarabunPSK', size=int(self.screen_all*0.0001), weight="bold")
 
         #Var for stopwacth
         but_st = Button(self.ball, text="start", command=self.Start).place(x=1000, y=500)
@@ -38,13 +44,16 @@ class Football(object):
         print "__init__ ->"
         self.timestr = StringVar()               
         self.makeWidgets()
+        #Score
+        self.idx1 = 0
+        box1 = Label(self.ball, text="%.2d" % (self.idx1), font=self.big_font, bg="black", fg="white").place(x=self.screen_width*0.06, y=self.screen_height*0.1)
 
         #loop
         self.ball.mainloop()
 
     def change(self):
-        box1 = Label(self.ball, text="%.2d" % (self.idx1), font=self.big_font, bg="black", fg="white").place(x=50, y=100)
         self.idx1 += 1
+        box1 = Label(self.ball, text="%.2d" % (self.idx1), font=self.big_font, bg="black", fg="white").place(x=50, y=100)
 
     def reset(self):
         self.idx1 = 0
@@ -103,8 +112,6 @@ class Main(object):
         root.title('Sport Day All in one')
         app_name = Label(root, text='Sport All in one', font=my_font)
         app_name.pack()
-        adapt = Label(root, text='Please Select Your Resolution')
-        adapt.pack()
         image1 = Image.open("test.bmp") #open image file 
         image1 = image1.resize((200, 100), Image.ANTIALIAS) #resize image to def button size
         photo = ImageTk.PhotoImage(image1)
