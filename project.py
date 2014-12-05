@@ -4,6 +4,7 @@
 import time
 from Tkinter import *
 #from ImageTk import PhotoImage
+import ttk
 from PIL import Image, ImageTk
 import tkMessageBox
 import tkFont
@@ -11,9 +12,11 @@ import tkFont
 class Football(object):
     def __init__(self):
         self.ball = Toplevel()
-        self.ball.geometry('%dx%d' % (1366, 768))
+        self.screen_width = self.ball.winfo_screenwidth()
+        self.screen_height = self.ball.winfo_screenheight()
+        self.ball.geometry(str(self.screen_width)+'x'+str(self.screen_height))
         bg_image = Image.open("fifa_15.jpg")
-        bg_image = bg_image.resize((1366, 768), Image.ANTIALIAS)
+        bg_image = bg_image.resize((self.screen_width, self.screen_height), Image.ANTIALIAS)
         bg_photo =  ImageTk.PhotoImage(bg_image)
         bg_pic = Label(self.ball, image=bg_photo)
         bg_pic.pack()
@@ -100,6 +103,8 @@ class Main(object):
         root.title('Sport Day All in one')
         app_name = Label(root, text='Sport All in one', font=my_font)
         app_name.pack()
+        adapt = Label(root, text='Please Select Your Resolution')
+        adapt.pack()
         image1 = Image.open("test.bmp") #open image file 
         image1 = image1.resize((200, 100), Image.ANTIALIAS) #resize image to def button size
         photo = ImageTk.PhotoImage(image1)
@@ -110,4 +115,13 @@ class Main(object):
     def football(self):
         self.fb1 = Football()
 
+
+
 app = Main()
+#self.box_value = StringVar()
+ #       self.box = ttk.Combobox(root, textvariable=self.box_value, 
+  #                              state='readonly')
+   #     self.box['values'] = ('1920x1080', '1680x1050', '1600x900', '1400x1050',  '1366x768', '1360x768', '1280x1024', \
+    #                          '1280x768', '1280x720', '1024x768', '1024x600', '800x600')
+     #   self.box.current(1)
+      #  self.box.pack()
