@@ -22,22 +22,22 @@ class Football(object):
         bg_photo =  ImageTk.PhotoImage(bg_image)
         bg_pic = Label(self.ball, image=bg_photo)
         bg_pic.pack()
-        def quit_fx():
-            self.ball.destroy()
-        but_quit = Button(self.ball, text='CLOSE', command=quit_fx)
-        but_quit.place(x=self.screen_width*0.97, y=self.screen_height*0.01)
-        but1 = Button(self.ball, text="+++++1", command=self.change).place(x=200, y=500)
-        but_re = Button(self.ball, text="RESET!!", command=self.reset).place(x=200, y=500)
-        but2 = Button(self.ball, text="+++++2").place(x=500, y=500)
-        but_st = Button(self.ball, text="start", command=self.Start).place(x=1000, y=500)
+        but_font = tkFont.Font(self.ball, size=int(self.screen_width*0.01), weight="bold")
+        but_quit = Button(self.ball, text='CLOSE', bg='#ff2424', font=but_font, command=self.quit_fx)
+        but_quit.place(x=self.screen_width*0.935, y=self.screen_height*0.015)
+        but1 = Button(self.ball, text="ADD 1 POINT", font=but_font, command=self.change).place(x=self.screen_width*0.06, y=self.screen_height*0.55)
+        but_re = Button(self.ball, text="RESET POINT", font=but_font, command=self.reset).place(x=self.screen_width*0.45, y=self.screen_height*0.9)
+        but2 = Button(self.ball, text="ADD 1 POINT", font=but_font, command=self.change2).place(x=self.screen_width*0.71, y=self.screen_height*0.55)
+        but_start = Button(self.ball, text="start", font=but_font, command=self.Start).place(x=self.screen_width*0.433, y=self.screen_height*0.12)
+        but_stop = Button(self.ball, text="stop", font=but_font, command=self.Stop).place(x=self.screen_width*0.4875, y=self.screen_height*0.12)
+        but_reset = Button(self.ball, text="reset", font=but_font, command=self.Reset).place(x=self.screen_width*0.54, y=self.screen_height*0.12)
 
         #font
-        self.big_font = tkFont.Font(self.ball, family='TH SarabunPSK', size=int(self.screen_all*0.0001), weight="bold")
+        self.big_font = tkFont.Font(self.ball, size=int(self.screen_width*0.15), weight="bold")
 
         #Var for stopwacth
-        but_st = Button(self.ball, text="start", command=self.Start).place(x=1000, y=500)
         self.minit, self.sec = 0, 0
-        self.time_font = tkFont.Font(self.ball, family='TH SarabunPSK', size=50, weight="bold")
+        self.time_font = tkFont.Font(self.ball, size=int(self.screen_width*0.03), weight="bold")
         self._start = 0.0        
         self._elapsedtime = 0.0
         self._running = 0
@@ -46,27 +46,37 @@ class Football(object):
         self.makeWidgets()
         #Score
         self.idx1 = 0
-        box1 = Label(self.ball, text="%.2d" % (self.idx1), font=self.big_font, bg="black", fg="white").place(x=self.screen_width*0.06, y=self.screen_height*0.1)
+        self.idx2 = 0
+        box1 = Label(self.ball, text="%.2d" % (self.idx1), font=self.big_font, bg="#080405", fg="white").place(x=self.screen_width*0.06, y=self.screen_height*0.1)
+        box2 = Label(self.ball, text="%.2d" % (self.idx2), font=self.big_font, bg="#080405", fg="white").place(x=self.screen_width*0.71, y=self.screen_height*0.1)
 
         #loop
         self.ball.mainloop()
 
+    def quit_fx(self):
+            self.ball.destroy()
+
     def change(self):
         self.idx1 += 1
-        box1 = Label(self.ball, text="%.2d" % (self.idx1), font=self.big_font, bg="black", fg="white").place(x=50, y=100)
+        box1 = Label(self.ball, text="%.2d" % (self.idx1), font=self.big_font, bg="#080405", fg="white").place(x=self.screen_width*0.06, y=self.screen_height*0.1)
+
+    def change2(self):
+        self.idx2 += 1
+        box2 = Label(self.ball, text="%.2d" % (self.idx2), font=self.big_font, bg="#080405", fg="white").place(x=self.screen_width*0.71, y=self.screen_height*0.1)
 
     def reset(self):
         self.idx1 = 0
-        box1 = Label(self.ball, text="%.2d" % (self.idx1), font=self.big_font, bg="black", fg="white").place(x=50, y=100)
-        self.idx1 += 1
+        self.idx2 = 0
+        box1 = Label(self.ball, text="%.2d" % (self.idx1), font=self.big_font, bg="#080405", fg="white").place(x=self.screen_width*0.06, y=self.screen_height*0.1)
+        box2 = Label(self.ball, text="%.2d" % (self.idx2), font=self.big_font, bg="#080405", fg="white").place(x=self.screen_width*0.71, y=self.screen_height*0.1)
 
     #stopwacth
     def makeWidgets(self):                         
         """ Make the time label. """
-        l = Label(self.ball, textvariable=self.timestr, font=self.time_font)
+        l = Label(self.ball, textvariable=self.timestr, fg='#eb000c', font=self.time_font)
         self._setTime(self._elapsedtime)
         print "makeWidgets ->",
-        l.place(x=1000, y=150)
+        l.place(x=self.screen_width*0.455, y=self.screen_height*0.02)
     
     def _update(self): 
         """ Update the label with elapsed time. """
@@ -93,7 +103,7 @@ class Football(object):
     def Stop(self):                                    
         """ Stop the stopwatch, ignore if stopped. """
         if self._running:
-            self.after_cancel(self._timer)            
+            self.ball.after_cancel(self._timer)            
             self._elapsedtime = time.time() - self._start    
             self._setTime(self._elapsedtime)
             self._running = 0
