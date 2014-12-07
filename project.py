@@ -23,6 +23,7 @@ class Football(object):
         bg_pic = Label(self.ball, image=bg_photo)
         bg_pic.pack()
         but_font = tkFont.Font(self.ball, size=int(self.screen_width*0.01), weight="bold")
+        but_font_ok = tkFont.Font(self.ball, size=int(self.screen_width*0.015), weight="bold")
         but_quit = Button(self.ball, text='CLOSE', bg='#ff2424', font=but_font, command=self.quit_fx)
         but_quit.place(x=self.screen_width*0.935, y=self.screen_height*0.015)
         but1 = Button(self.ball, text="ADD 1 POINT", font=but_font, command=self.change).place(x=self.screen_width*0.06, y=self.screen_height*0.55)
@@ -31,9 +32,25 @@ class Football(object):
         but_start = Button(self.ball, text="start", font=but_font, command=self.Start).place(x=self.screen_width*0.433, y=self.screen_height*0.12)
         but_stop = Button(self.ball, text="stop", font=but_font, command=self.Stop).place(x=self.screen_width*0.4875, y=self.screen_height*0.12)
         but_reset = Button(self.ball, text="reset", font=but_font, command=self.Reset).place(x=self.screen_width*0.54, y=self.screen_height*0.12)
+        self.name1, self.name2 = StringVar(), StringVar()
+        self.en1 = Entry(self.ball, textvariable=self.name1, font=but_font)
+        self.en1.place(x=self.screen_width*0.06, y=self.screen_height*0.05)
+        self.en2 = Entry(self.ball, textvariable=self.name2, font=but_font)
+        self.en2.place(x=self.screen_width*0.71, y=self.screen_height*0.05)
+        self.buto1 = Button(self.ball, text="OK", font=but_font_ok, command=self.make_name1) #but ok
+        self.buto1.place(x=self.screen_width*0.215, y=self.screen_height*0.011)
+        self.buto2 = Button(self.ball, text="OK", font=but_font_ok, command=self.make_name2)
+        self.buto2.place(x=self.screen_width*0.865, y=self.screen_height*0.011)
+        self.ask1 = Label(self.ball, text="Please enter your Name", font=but_font)
+        self.ask1.place(x=self.screen_width*0.06, y=self.screen_height*0.01)
+        self.ask2 = Label(self.ball, text="Please enter your Name", font=but_font)
+        self.ask2.place(x=self.screen_width*0.71, y=self.screen_height*0.01)
+        
 
         #font
         self.big_font = tkFont.Font(self.ball, size=int(self.screen_width*0.15), weight="bold")
+        self.but_font2 = tkFont.Font(self.ball, size=int(self.screen_width*0.02), weight="bold")
+        
 
         #Var for stopwacth
         self.minit, self.sec = 0, 0
@@ -52,6 +69,19 @@ class Football(object):
 
         #loop
         self.ball.mainloop()
+
+    def make_name1(self):
+        self.en1.destroy()
+        self.buto1.destroy()
+        self.ask1.destroy()
+        Label(self.ball, text=self.name1.get(), font=self.but_font2).place(x=self.screen_width*0.06, y=self.screen_height*0.05)
+
+    def make_name2(self):
+        self.en2.destroy()
+        self.buto2.destroy()
+        self.ask2.destroy()
+        Label(self.ball, text=self.name2.get(), font=self.but_font2).place(x=self.screen_width*0.71, y=self.screen_height*0.05)
+        
 
     def quit_fx(self):
             self.ball.destroy()
