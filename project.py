@@ -74,13 +74,13 @@ class Football(object):
         self.en1.destroy()
         self.buto1.destroy()
         self.ask1.destroy()
-        Label(self.ball, text=self.name1.get(), font=self.but_font2).place(x=self.screen_width*0.06, y=self.screen_height*0.05)
+        Label(self.ball, text=self.name1.get(), font=self.but_font2, fg='#fa0', bg="#080405").place(x=self.screen_width*0.163, y=self.screen_height*0.05)
 
     def make_name2(self):
         self.en2.destroy()
         self.buto2.destroy()
         self.ask2.destroy()
-        Label(self.ball, text=self.name2.get(), font=self.but_font2).place(x=self.screen_width*0.71, y=self.screen_height*0.05)
+        Label(self.ball, text=self.name2.get(), font=self.but_font2, fg='#fa0', bg="#080405").place(x=self.screen_width*0.813, y=self.screen_height*0.05)
         
 
     def quit_fx(self):
@@ -103,7 +103,7 @@ class Football(object):
     #stopwacth
     def makeWidgets(self):                         
         """ Make the time label. """
-        l = Label(self.ball, textvariable=self.timestr, fg='#eb000c', font=self.time_font)
+        l = Label(self.ball, textvariable=self.timestr, fg='#87ff3d', bg="#080405", font=self.time_font)
         self._setTime(self._elapsedtime)
         print "makeWidgets ->",
         l.place(x=self.screen_width*0.455, y=self.screen_height*0.02)
