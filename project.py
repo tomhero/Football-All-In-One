@@ -27,7 +27,7 @@ class Football(object):
         but_quit = Button(self.ball, text='CLOSE', bg='#ff2424', font=but_font, command=self.quit_fx)
         but_quit.place(x=self.screen_width*0.935, y=self.screen_height*0.015)
         but1 = Button(self.ball, text="ADD 1 POINT", font=but_font, command=self.change).place(x=self.screen_width*0.06, y=self.screen_height*0.55)
-        but_re = Button(self.ball, text="RESET POINT", font=but_font, command=self.reset).place(x=self.screen_width*0.45, y=self.screen_height*0.9)
+        but_re = Button(self.ball, text="RESET POINT", font=but_font, command=self.reset).place(x=self.screen_width*0.46, y=self.screen_height*0.9)
         but2 = Button(self.ball, text="ADD 1 POINT", font=but_font, command=self.change2).place(x=self.screen_width*0.71, y=self.screen_height*0.55)
         but_start = Button(self.ball, text="start", font=but_font, command=self.Start).place(x=self.screen_width*0.433, y=self.screen_height*0.12)
         but_stop = Button(self.ball, text="stop", font=but_font, command=self.Stop).place(x=self.screen_width*0.4875, y=self.screen_height*0.12)
@@ -45,6 +45,7 @@ class Football(object):
         self.ask1.place(x=self.screen_width*0.06, y=self.screen_height*0.01)
         self.ask2 = Label(self.ball, text="Please enter your Name", font=but_font)
         self.ask2.place(x=self.screen_width*0.71, y=self.screen_height*0.01)
+        but_win = Button(self.ball, text="Finish", font=but_font, command=self.win).place(x=self.screen_width*0.48, y=self.screen_height*0.35)
         
 
         #font
@@ -74,17 +75,29 @@ class Football(object):
         self.en1.destroy()
         self.buto1.destroy()
         self.ask1.destroy()
-        Label(self.ball, text=self.name1.get(), font=self.but_font2, fg='#fa0', bg="#080405").place(x=self.screen_width*0.163, y=self.screen_height*0.05)
+        Label(self.ball, text=self.name1.get(), font=self.but_font2, fg='#fa0', bg="#080405").place(x=self.screen_width*0.06, y=self.screen_height*0.05)
 
     def make_name2(self):
         self.en2.destroy()
         self.buto2.destroy()
         self.ask2.destroy()
-        Label(self.ball, text=self.name2.get(), font=self.but_font2, fg='#fa0', bg="#080405").place(x=self.screen_width*0.813, y=self.screen_height*0.05)
+        Label(self.ball, text=self.name2.get(), font=self.but_font2, fg='#fa0', bg="#080405").place(x=self.screen_width*0.71, y=self.screen_height*0.05)
+
+    def win(self):
+        self.win = Tk()
+        self.win.geometry('%dx%d+%d+%d' % (self.screen_width*0.3, self.screen_height*0.11, self.screen_width*0.35, self.screen_height*0.2))
+        self.font_butwin = tkFont.Font(self.win, size=int(self.screen_width*0.01), weight="bold")
+        if self.idx1 > self.idx2:
+            Label(self.win, text='The Winner Is '+self.name1.get(), font=self.font_butwin).pack()
+        elif self.idx1 < self.idx2:
+            Label(self.win, text='The Winner Is '+self.name2.get(), font=self.font_butwin).pack()
+        else:
+            Label(self.win, text='Draw', font=self.font_butwin).pack()
+            
         
 
     def quit_fx(self):
-            self.ball.destroy()
+        self.ball.destroy()
 
     def change(self):
         self.idx1 += 1
@@ -147,12 +160,14 @@ class Football(object):
 class Main(object):
     def __init__(self):
         root = Tk()
-        root.geometry('650x450+350+150')
+        self.screen_width = root.winfo_screenwidth()
+        self.screen_height = root.winfo_screenheight()
+        root.geometry('%dx%d+%d+%d' % (self.screen_width*0.5, self.screen_height*0.5, self.screen_width*0.22, self.screen_height*0.2))
         my_font = tkFont.Font(root, family='TH SarabunPSK', size=36, weight="bold")
         root.title('Sport Day All in one')
         app_name = Label(root, text='Sport All in one', font=my_font)
         app_name.pack()
-        image1 = Image.open("test.bmp") #open image file 
+        image1 = Image.open("ball.jpg") #open image file 
         image1 = image1.resize((200, 100), Image.ANTIALIAS) #resize image to def button size
         photo = ImageTk.PhotoImage(image1)
         but = Button(root, image=photo, cursor="plus", command=self.football)
