@@ -24,11 +24,12 @@ class Football(object):
         bg_pic.pack()
         but_font = tkFont.Font(self.ball, size=int(self.screen_width*0.01), weight="bold")
         but_font_ok = tkFont.Font(self.ball, size=int(self.screen_width*0.015), weight="bold")
+        but_font3 = tkFont.Font(self.ball, size=int(self.screen_width*0.0095), weight="bold")
         but_quit = Button(self.ball, text='CLOSE', bg='#ff2424', font=but_font, command=self.quit_fx)
         but_quit.place(x=self.screen_width*0.935, y=self.screen_height*0.015)
-        but1 = Button(self.ball, text="ADD 1 POINT", font=but_font, command=self.change).place(x=self.screen_width*0.06, y=self.screen_height*0.55)
+        but1 = Button(self.ball, text="ADD 1 POINT", font=but_font, command=self.change).place(x=self.screen_width*0.06, y=self.screen_height*0.48)
         but_re = Button(self.ball, text="RESET POINT", font=but_font, command=self.reset).place(x=self.screen_width*0.46, y=self.screen_height*0.9)
-        but2 = Button(self.ball, text="ADD 1 POINT", font=but_font, command=self.change2).place(x=self.screen_width*0.71, y=self.screen_height*0.55)
+        but2 = Button(self.ball, text="ADD 1 POINT", font=but_font, command=self.change2).place(x=self.screen_width*0.71, y=self.screen_height*0.48)
         but_start = Button(self.ball, text="start", font=but_font, command=self.Start).place(x=self.screen_width*0.433, y=self.screen_height*0.12)
         but_stop = Button(self.ball, text="stop", font=but_font, command=self.Stop).place(x=self.screen_width*0.4875, y=self.screen_height*0.12)
         but_reset = Button(self.ball, text="reset", font=but_font, command=self.Reset).place(x=self.screen_width*0.54, y=self.screen_height*0.12)
@@ -45,13 +46,21 @@ class Football(object):
         self.ask1.place(x=self.screen_width*0.06, y=self.screen_height*0.01)
         self.ask2 = Label(self.ball, text="Please enter your Name", font=but_font)
         self.ask2.place(x=self.screen_width*0.71, y=self.screen_height*0.01)
-        but_win = Button(self.ball, text="Finish", font=but_font, command=self.win).place(x=self.screen_width*0.48, y=self.screen_height*0.35)
-        but_info = Button(self.ball, text="Rule", font=but_font, command=self.info).place(x=self.screen_width*0.938, y=self.screen_height*0.059)
-        
+        but_win = Button(self.ball, text="FINISH", font=but_font, command=self.win).place(x=self.screen_width*0.48, y=self.screen_height*0.35)
+        but_rule = Button(self.ball, text="Rule", font=but_font, command=self.info).place(x=self.screen_width*0.008, y=self.screen_height*0.015)
+        but_rc1 = Button(self.ball, text="ADD RED", font=but_font3, command=self.change_rc1).place(x=self.screen_width*0.06, y=self.screen_height*0.85)
+        but_rc2 = Button(self.ball, text="ADD RED", font=but_font3, command=self.change_rc2).place(x=self.screen_width*0.71, y=self.screen_height*0.85)
+        but_yc1 = Button(self.ball, text="ADD Yellow", font=but_font3, command=self.change_yc1).place(x=self.screen_width*0.16, y=self.screen_height*0.85)
+        but_yc2 = Button(self.ball, text="ADD Yellow", font=but_font3, command=self.change_yc2).place(x=self.screen_width*0.81, y=self.screen_height*0.85)
+        but_yc1 = Button(self.ball, text="ADD Foul", font=but_font3, command=self.change_fo1).place(x=self.screen_width*0.26, y=self.screen_height*0.85)
+        but_yc2 = Button(self.ball, text="ADD Foul", font=but_font3, command=self.change_fo2).place(x=self.screen_width*0.91, y=self.screen_height*0.85)
+        but_re1 = Button(self.ball, text='RESET', font=but_font3, command=self.reset_fo1).place(x=self.screen_width*0.1735, y=self.screen_height*0.92)
+        but_re2 = Button(self.ball, text='RESET', font=but_font3, command=self.reset_fo2).place(x=self.screen_width*0.8235, y=self.screen_height*0.92)
 
         #font
         self.big_font = tkFont.Font(self.ball, size=int(self.screen_width*0.15), family='DS-Digital')
         self.but_font2 = tkFont.Font(self.ball, size=int(self.screen_width*0.02), weight="bold")
+        self.big_font2 = tkFont.Font(self.ball, size=int(self.screen_width*0.1), family='DS-Digital')
 
         #Var for stopwacth
         self.minit, self.sec = 0, 0
@@ -69,6 +78,28 @@ class Football(object):
         self.box1.place(x=self.screen_width*0.06, y=self.screen_height*0.1)
         self.box2 = Label(self.ball, text="%.2d" % (self.idx2), font=self.big_font, bg="#080405", fg="white")
         self.box2.place(x=self.screen_width*0.71, y=self.screen_height*0.1)
+
+        #Red Yellow card and Foul
+        self.prc1 = 0
+        self.prc2 = 0
+        self.pyc1 = 0
+        self.pyc2 = 0
+        self.pfo1 = 0
+        self.pfo2 = 0
+        self.brc1 = Label(self.ball, text="%d" % (self.prc1), font=self.big_font2, bg="#080405", fg="white")
+        self.brc1.place(x=self.screen_width*0.06, y=self.screen_height*0.6)
+        self.brc2 = Label(self.ball, text="%d" % (self.prc2), font=self.big_font2, bg="#080405", fg="white")
+        self.brc2.place(x=self.screen_width*0.71, y=self.screen_height*0.6)
+        self.byc1 = Label(self.ball, text="%d" % (self.pyc1), font=self.big_font2, bg="#080405", fg="white")
+        self.byc1.place(x=self.screen_width*0.16, y=self.screen_height*0.6)
+        self.byc2 = Label(self.ball, text="%d" % (self.pyc2), font=self.big_font2, bg="#080405", fg="white")
+        self.byc2.place(x=self.screen_width*0.81, y=self.screen_height*0.6)
+        self.bfo1 = Label(self.ball, text="%d" % (self.pfo1), font=self.big_font2, bg="#080405", fg="white")
+        self.bfo1.place(x=self.screen_width*0.26, y=self.screen_height*0.6)
+        self.bfo2 = Label(self.ball, text="%d" % (self.pfo2), font=self.big_font2, bg="#080405", fg="white")
+        self.bfo2.place(x=self.screen_width*0.91, y=self.screen_height*0.6)
+        
+
 
         #loop
         self.ball.mainloop()
@@ -119,8 +150,72 @@ class Football(object):
             Label(self.win, text='The Winner Is '+self.name2.get(), font=self.font_butwin).pack()
         else:
             Label(self.win, text='Draw', font=self.font_butwin).pack()
-            
 
+    def change_rc1(self):
+        self.prc1 += 1
+        self.brc1.destroy()
+        self.brc1 = Label(self.ball, text="%d" % (self.prc1), font=self.big_font2, bg="#080405", fg="white")
+        self.brc1.place(x=self.screen_width*0.06, y=self.screen_height*0.6)
+
+    def change_rc2(self):
+        self.prc2 += 1
+        self.brc2.destroy()
+        self.brc2 = Label(self.ball, text="%d" % (self.prc2), font=self.big_font2, bg="#080405", fg="white")
+        self.brc2.place(x=self.screen_width*0.7, y=self.screen_height*0.6)
+
+    def change_yc1(self):
+        self.pyc1 += 1
+        self.byc1.destroy()
+        self.byc1 = Label(self.ball, text="%d" % (self.pyc1), font=self.big_font2, bg="#080405", fg="white")
+        self.byc1.place(x=self.screen_width*0.16, y=self.screen_height*0.6)
+
+    def change_yc2(self):
+        self.pyc2 += 1
+        self.byc2.destroy()
+        self.byc2 = Label(self.ball, text="%d" % (self.pyc2), font=self.big_font2, bg="#080405", fg="white")
+        self.byc2.place(x=self.screen_width*0.8, y=self.screen_height*0.6)
+
+    def change_fo1(self):
+        self.pfo1 += 1
+        self.bfo1.destroy()
+        self.bfo1 = Label(self.ball, text="%d" % (self.pfo1), font=self.big_font2, bg="#080405", fg="white")
+        self.bfo1.place(x=self.screen_width*0.26, y=self.screen_height*0.6)
+
+    def change_fo2(self):
+        self.pfo2 += 1
+        self.bfo2.destroy()
+        self.bfo2 = Label(self.ball, text="%d" % (self.pfo2), font=self.big_font2, bg="#080405", fg="white")
+        self.bfo2.place(x=self.screen_width*0.9
+                        , y=self.screen_height*0.6)
+
+    def reset_fo1(self):
+        self.prc1 = 0
+        self.pyc1 = 0
+        self.pfo1 = 0
+        self.brc1.destroy()
+        self.byc1.destroy()
+        self.bfo1.destroy()
+        self.brc1 = Label(self.ball, text="%d" % (self.prc1), font=self.big_font2, bg="#080405", fg="white")
+        self.brc1.place(x=self.screen_width*0.06, y=self.screen_height*0.6)
+        self.byc1 = Label(self.ball, text="%d" % (self.pyc1), font=self.big_font2, bg="#080405", fg="white")
+        self.byc1.place(x=self.screen_width*0.16, y=self.screen_height*0.6)
+        self.bfo1 = Label(self.ball, text="%d" % (self.pfo1), font=self.big_font2, bg="#080405", fg="white")
+        self.bfo1.place(x=self.screen_width*0.26, y=self.screen_height*0.6)
+
+    def reset_fo2(self):
+        self.prc2 = 0
+        self.pyc2 = 0
+        self.pfo2 = 0
+        self.brc2.destroy()
+        self.byc2.destroy()
+        self.bfo2.destroy()
+        self.brc2 = Label(self.ball, text="%d" % (self.prc2), font=self.big_font2, bg="#080405", fg="white")
+        self.brc2.place(x=self.screen_width*0.71, y=self.screen_height*0.6)
+        self.byc2 = Label(self.ball, text="%d" % (self.pyc2), font=self.big_font2, bg="#080405", fg="white")
+        self.byc2.place(x=self.screen_width*0.81, y=self.screen_height*0.6)
+        self.bfo2 = Label(self.ball, text="%d" % (self.pfo2), font=self.big_font2, bg="#080405", fg="white")
+        self.bfo2.place(x=self.screen_width*0.91, y=self.screen_height*0.6)
+        
     def quit_fx(self):
         self.ball.destroy()
 
@@ -152,7 +247,7 @@ class Football(object):
         l = Label(self.ball, textvariable=self.timestr, fg='#87ff3d', bg="#080405", font=self.time_font)
         self._setTime(self._elapsedtime)
         print "makeWidgets ->",
-        l.place(x=self.screen_width*0.455, y=self.screen_height*0.02)
+        l.place(x=self.screen_width*0.46, y=self.screen_height*0.02)
     
     def _update(self): 
         """ Update the label with elapsed time. """
