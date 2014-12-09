@@ -46,16 +46,16 @@ class Football(object):
         self.ask2 = Label(self.ball, text="Please enter your Name", font=but_font)
         self.ask2.place(x=self.screen_width*0.71, y=self.screen_height*0.01)
         but_win = Button(self.ball, text="Finish", font=but_font, command=self.win).place(x=self.screen_width*0.48, y=self.screen_height*0.35)
+        but_info = Button(self.ball, text="Rule", font=but_font, command=self.info).place(x=self.screen_width*0.938, y=self.screen_height*0.059)
         
 
         #font
-        self.big_font = tkFont.Font(self.ball, size=int(self.screen_width*0.15), weight="bold")
+        self.big_font = tkFont.Font(self.ball, size=int(self.screen_width*0.15), family='DS-Digital')
         self.but_font2 = tkFont.Font(self.ball, size=int(self.screen_width*0.02), weight="bold")
-        
 
         #Var for stopwacth
         self.minit, self.sec = 0, 0
-        self.time_font = tkFont.Font(self.ball, size=int(self.screen_width*0.03), weight="bold")
+        self.time_font = tkFont.Font(self.ball, size=int(self.screen_width*0.03), family='DS-Digital')
         self._start = 0.0        
         self._elapsedtime = 0.0
         self._running = 0
@@ -65,12 +65,38 @@ class Football(object):
         #Score
         self.idx1 = 0
         self.idx2 = 0
-        box1 = Label(self.ball, text="%.2d" % (self.idx1), font=self.big_font, bg="#080405", fg="white").place(x=self.screen_width*0.06, y=self.screen_height*0.1)
-        box2 = Label(self.ball, text="%.2d" % (self.idx2), font=self.big_font, bg="#080405", fg="white").place(x=self.screen_width*0.71, y=self.screen_height*0.1)
+        self.box1 = Label(self.ball, text="%.2d" % (self.idx1), font=self.big_font, bg="#080405", fg="white")
+        self.box1.place(x=self.screen_width*0.06, y=self.screen_height*0.1)
+        self.box2 = Label(self.ball, text="%.2d" % (self.idx2), font=self.big_font, bg="#080405", fg="white")
+        self.box2.place(x=self.screen_width*0.71, y=self.screen_height*0.1)
 
         #loop
         self.ball.mainloop()
 
+    def info(self):
+        self.rule = Tk()
+        self.rule.geometry('%dx%d+%d+%d' % (self.screen_width*0.63, self.screen_height*0.55, self.screen_width*0.165, self.screen_height*0.165))
+        self.rule.title("Rule of football")
+        self.rule_font = tkFont.Font(self.rule, family='TH SarabunPSK', size=int(self.screen_width*0.012))
+        self.head_font = tkFont.Font(self.rule, family='TH SarabunPSK', size=int(self.screen_width*0.015), weight="bold")
+        self.head1 = Label(self.rule, text="กติกา", font=self.head_font).pack()
+        self.about = Label(self.rule, text="""      เวลาในการแข่งขัน การแข่งขันแบ่งออกเป็น 2 ครึ่ง ครึ่งละ 45 นาที โดยทั้ง 2 ฝั่งมีหน้าที่ยิงประตูฝั่งตรงข้ามให้ได้มากกว่า
+ทั้งนี้ หากเสมอกันในการแข่งขันฟุตบอลรายการแพ้คัดออก จะต่อเวลาเพิ่มอีกครึ่งละ 15 นาที รวม 2 ครึ่ง 30 นาทีด้วยกัน
+และถ้าหากยังตัดสินผู้ชนะไม่ได้ ก็จะดวลจุดโทษตัดสินฝั่งละ 5 ลูก ซึ่งถ้าหากตัดสินไม่ได้อีก ก็จะยิงทีละ 1 ต่อ 1 คือ หากใคร
+ยิงพลาด และอีกฝ่ายยิงได้ ก็เกมจบทันทีอย่างไรก็ตาม เมื่อยิงครบ 11 คนแล้วตัดสินผู้ชนะไม่ได้ ก็จะวนกลับมายิงใหม่ที่คนแรก ไปเรื่อย ๆ""", font=self.rule_font, justify = LEFT).pack()
+        self.about2 = Label(self.rule, text="""      การผิดกติกา ก็มี การที่ไม่ใช่ผู้รักษาประตูแล้วใช้มือเล่น หรือ การพยายามขัดขวางการเล่นของฝั่งตรงข้าม เช่น ชน กระแทก
+ผู้เล่นที่มีบอล ก็คือว่าเป็นการฟาล์ว และฝ่ายที่ถูกทำฟาล์ว ก็จะได้ลูกตั้งเตะ แต่ถ้าฝ่ายบุกถูกทำฟาล์วในเขตโทษของฝ่ายรับ
+ก็จะเป็นลูกจุดโทษ ที่ฝ่ายบุกจะได้โอกาสยิงแบบ 1 ต่อ 1 กับผู้รักษาประตูฝ่ายรับ""", font=self.rule_font, justify = LEFT).pack()
+        self.about3 = Label(self.rule, text="""      ใบเหลือง-ใบแดง จะแจกก็ต่อเมื่อมีผู้เล่นที่ทำผิดกติกา ในลักษณะที่รุนแรง หรือ การถ่วงเวลา ผู้ตัดสินก็จะให้ใบเหลืองแก่คนที่
+ผิดกติกา ส่วนใบแดง ผู้ตัดสินจะให้ก็ต่อเมื่อ มีการทำฟาล์วที่รุนแรงมาก เช่น ทำให้ได้รับบาดเจ็บหนัก หรือ เล่นอันตรายอย่าง
+การเปิดปุ่มสตั๊ดไปที่ขาของฝ่ายตรงข้าม เป็นต้น นอกจากนี้ การได้ใบแดง จะมีอีกกรณีหนึ่งคือ การทำฟาล์วแบบไม่รุนแรง
+แต่ฟาล์วขณะที่ฝั่งตรงข้ามกำลังจะทำประตูได้ ก็ได้รับใบแดงเช่นกัน""", font=self.rule_font, justify = LEFT).pack()
+        self.about4 = Label(self.rule, text="""การล้ำหน้า คือ การจ่ายบอลไปยังผู้เล่นที่ยืนอยู่สูงกว่าผู้เล่นฝั่งตรงข้ามในลำดับรองสุดท้าย                                            """, font=self.rule_font, justify = LEFT).pack()
+        Button(self.rule, text="OK!", fg="red", command=self.del_rule, font=self.rule_font).pack()
+
+    def del_rule(self):
+        self.rule.destroy()
+        
     def make_name1(self):
         self.en1.destroy()
         self.buto1.destroy()
@@ -94,24 +120,31 @@ class Football(object):
         else:
             Label(self.win, text='Draw', font=self.font_butwin).pack()
             
-        
 
     def quit_fx(self):
         self.ball.destroy()
 
     def change(self):
         self.idx1 += 1
-        box1 = Label(self.ball, text="%.2d" % (self.idx1), font=self.big_font, bg="#080405", fg="white").place(x=self.screen_width*0.06, y=self.screen_height*0.1)
+        self.box1.destroy()
+        self.box1 = Label(self.ball, text="%.2d" % (self.idx1), font=self.big_font, bg="#080405", fg="white")
+        self.box1.place(x=self.screen_width*0.06, y=self.screen_height*0.1)
 
     def change2(self):
         self.idx2 += 1
-        box2 = Label(self.ball, text="%.2d" % (self.idx2), font=self.big_font, bg="#080405", fg="white").place(x=self.screen_width*0.71, y=self.screen_height*0.1)
+        self.box2.destroy()
+        self.box2 = Label(self.ball, text="%.2d" % (self.idx2), font=self.big_font, bg="#080405", fg="white")
+        self.box2.place(x=self.screen_width*0.71, y=self.screen_height*0.1)
 
     def reset(self):
         self.idx1 = 0
         self.idx2 = 0
-        box1 = Label(self.ball, text="%.2d" % (self.idx1), font=self.big_font, bg="#080405", fg="white").place(x=self.screen_width*0.06, y=self.screen_height*0.1)
-        box2 = Label(self.ball, text="%.2d" % (self.idx2), font=self.big_font, bg="#080405", fg="white").place(x=self.screen_width*0.71, y=self.screen_height*0.1)
+        self.box1.destroy()
+        self.box2.destroy()
+        self.box1 = Label(self.ball, text="%.2d" % (self.idx1), font=self.big_font, bg="#080405", fg="white")
+        self.box1.place(x=self.screen_width*0.06, y=self.screen_height*0.1)
+        self.box2 = Label(self.ball, text="%.2d" % (self.idx2), font=self.big_font, bg="#080405", fg="white")
+        self.box2.place(x=self.screen_width*0.71, y=self.screen_height*0.1)
 
     #stopwacth
     def makeWidgets(self):                         
