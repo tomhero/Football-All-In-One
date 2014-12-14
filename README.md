@@ -1,4 +1,4 @@
-SPORT-All-In-One
+Football-All-In-One
 ================
 
 count point in sport and clock for timing.
